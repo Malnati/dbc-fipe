@@ -2,7 +2,6 @@ package br.com.dbccompany.fipebackend.service.impl;
 
 import br.com.dbccompany.fipebackend.dto.VehicleDto;
 import br.com.dbccompany.fipebackend.entity.VehicleCache;
-import br.com.dbccompany.fipebackend.repository.VehicleCacheRepository;
 import br.com.dbccompany.fipebackend.service.CacheService;
 import br.com.dbccompany.fipebackend.service.VehicleService;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class VehicleServiceImpl implements VehicleService {
 
-  private final VehicleCacheRepository vehicleCacheRepository;
   private final CacheService cacheService;
   private final RestTemplate restTemplate;
 
@@ -31,12 +28,12 @@ public class VehicleServiceImpl implements VehicleService {
 
   @Override
   public List<VehicleDto> listVehiclesByManufacturer(@NotNull Integer manufacturerId) {
-    VehicleCache cache = this.findValidVehicleCache(manufacturerId);
+    VehicleCache cache = cacheService.findValidVehicleCache(manufacturerId);
     if (cache != null) {
       return cache.getCachedResults();
     }
     List<VehicleDto> vehicles = fetchFromRestService(manufacturerId);
-    this.saveCache(manufacturerId, vehicles);
+    cacheService.saveVehicleCache(manufacturerId, vehicles);
     return vehicles;
   }
 
@@ -48,24 +45,5 @@ public class VehicleServiceImpl implements VehicleService {
     List<VehicleDto> vehicles = response.getBody();
     vehicles.forEach(vehicleDto -> vehicleDto.setManufacturerId(manufacturerId));
     return vehicles;
-  }
-
-  private VehicleCache findValidVehicleCache(Integer manufacturerId) {
-    Iterable<VehicleCache> caches = vehicleCacheRepository.findByManufacturerId(manufacturerId);
-    if (caches == null) return null;
-    for (VehicleCache cache : caches) {
-      if (cacheService.isCacheStillValid(cache.getGeneratedWhen())) return cache;
-    }
-    return null;
-  }
-
-  private void saveCache(Integer manufacturerId, List<VehicleDto> vehicles) {
-    VehicleCache cache =
-        VehicleCache.builder()
-            .cachedResults(vehicles)
-            .generatedWhen(LocalDateTime.now())
-            .manufacturerId(manufacturerId)
-            .build();
-    vehicleCacheRepository.save(cache);
   }
 }

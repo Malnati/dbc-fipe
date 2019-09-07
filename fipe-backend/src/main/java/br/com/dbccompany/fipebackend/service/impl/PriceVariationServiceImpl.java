@@ -12,13 +12,10 @@ import br.com.dbccompany.fipebackend.service.PriceService;
 import br.com.dbccompany.fipebackend.service.PriceVariationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,23 +25,20 @@ public class PriceVariationServiceImpl implements PriceVariationService {
 
   private final PriceVariationCacheRepository priceVariationCacheRepository;
   private final CacheService cacheService;
-  private final RestTemplate restTemplate;
   private final ModelService modelService;
   private final PriceService priceService;
-
-  @Value("${fipe.url-pattern.vehicle}")
-  private String serviceUrl;
 
   @Override
   public List<PriceVariationDto> findPriceVariationByManufacturerAndVehicle(
       Integer manufacturerId, Integer vehicleId) {
-    PriceVariationCache cache = this.findValidCache(manufacturerId, vehicleId);
+    PriceVariationCache cache =
+        cacheService.findValidPriceVariationCache(manufacturerId, vehicleId);
     if (cache != null) {
       return cache.getCachedResults();
     }
     List<PriceVariationDto> result =
         this.calculatePriceVariationsForVehicle(manufacturerId, vehicleId);
-    this.saveCache(manufacturerId, vehicleId, result);
+    cacheService.savePriceVariationCache(manufacturerId, vehicleId, result);
     return result;
   }
 
@@ -55,28 +49,6 @@ public class PriceVariationServiceImpl implements PriceVariationService {
     List<PriceVariationDto> priceVariationDtos = this.groupVehiclesByModelAndYear(vehicleModels);
     this.calculateVariations(priceVariationDtos);
     return priceVariationDtos;
-  }
-
-  private PriceVariationCache findValidCache(Integer manufacturerId, Integer vehicleId) {
-    Iterable<PriceVariationCache> caches =
-        priceVariationCacheRepository.findByManufacturerIdAndVehicleId(manufacturerId, vehicleId);
-    if (caches == null) return null;
-    for (PriceVariationCache cache : caches) {
-      if (cacheService.isCacheStillValid(cache.getGeneratedWhen())) return cache;
-    }
-    return null;
-  }
-
-  private void saveCache(
-      Integer manufacturerId, Integer vehicleId, List<PriceVariationDto> result) {
-    PriceVariationCache cache =
-        PriceVariationCache.builder()
-            .cachedResults(result)
-            .generatedWhen(LocalDateTime.now())
-            .manufacturerId(manufacturerId)
-            .vehicleId(vehicleId)
-            .build();
-    priceVariationCacheRepository.save(cache);
   }
 
   private void calculateVariations(List<PriceVariationDto> priceVariationDtos) {
