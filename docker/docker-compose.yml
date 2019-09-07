@@ -5,9 +5,9 @@ services:
     container_name: fipe-mongo
     restart: unless-stopped
     ports:
-      - '27017:27017'
+      - '27018:27018'
     expose:
-      - '27017'
+      - '27018'
     volumes:
       - 'fipe-mongo-data:/data/db'
   backend:
