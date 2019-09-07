@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mongodb:
+    image: 'mongo:latest'
+    container_name: fipe-mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    expose:
+      - '27017'
+    volumes:
+      - 'fipe-mongo-data:/data/db'
+  backend:
+    container_name: backend
+    restart: unless-stopped
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    expose: 
+      - '8080'
+    depends_on:
+      - mongodb
+volumes:
+  fipe-mongo-data:
+    driver: local
