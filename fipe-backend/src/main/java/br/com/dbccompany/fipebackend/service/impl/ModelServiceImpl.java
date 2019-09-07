@@ -20,7 +20,7 @@ public class ModelServiceImpl implements ModelService {
 
   private final RestTemplate restTemplate;
 
-  @Value("${fipe.model.url.pattern}")
+  @Value("${fipe.url-pattern.model}")
   private String serviceUrl;
 
   public List<ModelDto> listModelsByManufacturerAndVehicle(

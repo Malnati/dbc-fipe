@@ -19,7 +19,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
   private final RestTemplate restTemplate;
 
-  @Value("${fipe.manufacturer.url.pattern}")
+  @Value("${fipe.url-pattern.manufacturer}")
   private String serviceUrl;
 
   @Override

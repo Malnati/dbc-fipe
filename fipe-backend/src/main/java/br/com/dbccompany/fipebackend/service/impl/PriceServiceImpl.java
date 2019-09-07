@@ -21,7 +21,7 @@ public class PriceServiceImpl implements PriceService {
   private final RestTemplate restTemplate;
   private final Locale defaultLocale;
 
-  @Value("${fipe.price.url.pattern}")
+  @Value("${fipe.url-pattern.price}")
   private String serviceUrl;
 
   public PriceDto getPriceManufacturerVehicleAndModel(

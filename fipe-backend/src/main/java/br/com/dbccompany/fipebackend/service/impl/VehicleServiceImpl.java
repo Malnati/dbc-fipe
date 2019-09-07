@@ -27,7 +27,7 @@ public class VehicleServiceImpl implements VehicleService {
   private final ModelService modelService;
   private final PriceService priceService;
 
-  @Value("${fipe.vehicle.url.pattern}")
+  @Value("${fipe.url-pattern.vehicle}")
   private String serviceUrl;
 
   @Override
