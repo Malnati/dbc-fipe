@@ -19,7 +19,33 @@
         <lombok.version>1.18.8</lombok.version>
         <moneta.version>1.4</moneta.version>
         <lombok-maven-plugin.version>1.18.8.1</lombok-maven-plugin.version>
+        <start-class>br.com.dbccompany.fipebackend.FipeBackendApplication</start-class>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profile.active>local</spring.profile.active>
+                <mongodb.host>localhost</mongodb.host>
+                <mongodb.port>27017</mongodb.port>
+                <mongodb.db>fipe</mongodb.db>
+            </properties>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <properties>
+                <spring.profile.active>docker</spring.profile.active>
+                <mongodb.host>fipe-mongo</mongodb.host>
+                <mongodb.port>27017</mongodb.port>
+                <mongodb.db>fipe</mongodb.db>
+            </properties>
+        </profile>
+
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -63,7 +89,28 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                    <resources>
+                        <resource>
+                            <directory>src/main/resources</directory>
+                            <filtering>true</filtering>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
 </project>

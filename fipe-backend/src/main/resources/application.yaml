@@ -11,6 +11,8 @@ fipe:
 spring:
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: fipe
+      host: @mongodb.host@
+      port: @mongodb.port@
+      database: @mongodb.db@
+  profiles:
+      active: @spring.profile.active@
