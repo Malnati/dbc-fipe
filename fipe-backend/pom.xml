@@ -33,7 +33,7 @@
                 <application.basepath>/api</application.basepath>
                 <spring.profile.active>local</spring.profile.active>
                 <mongodb.host>localhost</mongodb.host>
-                <mongodb.port>27017</mongodb.port>
+                <mongodb.port>27018</mongodb.port>
                 <mongodb.db>fipe</mongodb.db>
             </properties>
         </profile>
@@ -44,6 +44,17 @@
                 <application.basepath>/api</application.basepath>
                 <spring.profile.active>docker</spring.profile.active>
                 <mongodb.host>fipe-mongo</mongodb.host>
+                <mongodb.port>27018</mongodb.port>
+                <mongodb.db>fipe</mongodb.db>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <application.port>8888</application.port>
+                <application.basepath>/api</application.basepath>
+                <spring.profile.active>docker</spring.profile.active>
+                <mongodb.host>localhost</mongodb.host>
                 <mongodb.port>27017</mongodb.port>
                 <mongodb.db>fipe</mongodb.db>
             </properties>
@@ -70,6 +81,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.flapdoodle.embed</groupId>
+            <artifactId>de.flapdoodle.embed.mongo</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
