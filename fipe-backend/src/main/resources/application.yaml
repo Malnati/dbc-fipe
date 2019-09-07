@@ -16,3 +16,8 @@ spring:
       database: @mongodb.db@
   profiles:
       active: @spring.profile.active@
+
+server:
+  port: @application.port@
+  servlet:
+    context-path: @application.basepath@

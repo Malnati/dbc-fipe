@@ -29,6 +29,8 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <application.port>8080</application.port>
+                <application.basepath>/api</application.basepath>
                 <spring.profile.active>local</spring.profile.active>
                 <mongodb.host>localhost</mongodb.host>
                 <mongodb.port>27017</mongodb.port>
@@ -38,6 +40,8 @@
         <profile>
             <id>docker</id>
             <properties>
+                <application.port>8888</application.port>
+                <application.basepath>/api</application.basepath>
                 <spring.profile.active>docker</spring.profile.active>
                 <mongodb.host>fipe-mongo</mongodb.host>
                 <mongodb.port>27017</mongodb.port>
