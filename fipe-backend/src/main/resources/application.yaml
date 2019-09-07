@@ -1,3 +1,6 @@
+app:
+  cache-ttl: 1440 # 1 day in minutes
+
 fipe:
   url-pattern:
     manufacturer: http://fipeapi.appspot.com/api/1/carros/marcas.json
