@@ -1,5 +1,5 @@
 <div class="container">
-    <p class="lead">Selecione a marca e o modelo e clique em pesquisar.</p>
+    <p class="lead">Selecione a marca e o modelo.</p>
     <div class="row">
       <div class="col-md-2 mb-2">
         <label for="select-marca">Marca</label>
@@ -14,17 +14,15 @@
         <label for="select-modelo">Modelo</label>
         <select class="custom-select d-block w-100" id="select-modelo" required
             #modelo
-            (change)='selectModelo(modelo.value)'>
+            (change)='selectModelo(modelo.value); search()'>
             <option value="">Selecione ... </option>
             <option *ngFor="let modelo of modelos" value="{{modelo.id}}">{{modelo.name}}</option>
         </select>
       </div>
-    </div>    
+    </div>
 </div>
 <div class="container">
-    <button id="search" (click)="search()" class="btn btn-primary" >Consultar</button>
     <div *ngFor="let veiculo of priceVariations">
-        <p class="lead">{{veiculo.vehicle}}</p>
         <div class="table-responsive">
           <table class="table table-striped table-sm">
             <thead>
