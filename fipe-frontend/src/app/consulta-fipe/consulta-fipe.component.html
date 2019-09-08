@@ -1,1 +1,6 @@
-<p>consulta-fipe works!</p>
+
+<p>Selecione a marca e o modelo e clique em pesquisar</p>
+<select>
+    <option *ngFor="let marca of marcas" value="{{marca.id}}">{{marca.name}}</option>
+</select>
+
