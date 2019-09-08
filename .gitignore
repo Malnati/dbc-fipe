@@ -29,3 +29,6 @@
 ### VS Code ###
 .vscode/
 .DS_Store
+fipe-backend/src/main/.DS_Store
+fipe-backend/src/main/java/br/com/dbccompany/fipebackend/.DS_Store
+fipe-backend/src/main/java/br/com/dbccompany/fipebackend/service/.DS_Store
