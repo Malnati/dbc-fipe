@@ -11,7 +11,7 @@ services:
     volumes:
       - 'fipe-mongo-data:/data/db'
   backend:
-    container_name: backend
+    container_name: fipe-backend
     restart: unless-stopped
     build: 
       context: ./backend

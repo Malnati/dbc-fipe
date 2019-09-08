@@ -1,0 +1,8 @@
+{
+    "/api": {
+      "target": "http://fipe-backend:8888",
+      "secure": false,
+      "logLevel": "debug",
+      "pathRewrite": {"^/api" : ""} 
+    }
+  }
