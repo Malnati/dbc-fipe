@@ -1,34 +1,50 @@
-
-<p>Selecione a marca e o modelo e clique em pesquisar</p>
-<div>
-    <label>Marca</label>
-    <select
+<div class="container">
+    <p class="lead">Selecione a marca e o modelo e clique em pesquisar.</p>
+    <div class="row">
+      <div class="col-md-2 mb-2">
+        <label for="select-marca">Marca</label>
+        <select class="custom-select d-block w-100" id="select-marca" required
         #marca 
         (change)='selectMarca(marca.value)'>
         <option value="">Selecione ... </option>
         <option *ngFor="let marca of marcas" value="{{marca.id}}">{{marca.name}}</option>
-    </select>
+        </select>
+      </div>
+      <div class="col-md-2 mb-2">
+        <label for="select-modelo">Modelo</label>
+        <select class="custom-select d-block w-100" id="select-modelo" required
+            #modelo
+            (change)='selectModelo(modelo.value)'>
+            <option value="">Selecione ... </option>
+            <option *ngFor="let modelo of modelos" value="{{modelo.id}}">{{modelo.name}}</option>
+        </select>
+      </div>
+    </div>    
+</div>
+<div class="container">
+    <button id="search" (click)="search()" class="btn btn-primary" >Consultar</button>
+    <div *ngFor="let veiculo of priceVariations">
+        <p class="lead">{{veiculo.vehicle}}</p>
+        <div class="table-responsive">
+          <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>Ano</th>
+                <th>Valor</th>
+                <th>Variação</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let price of veiculo.prices">
+              <tr>
+                <td>{{price.year}}</td>
+                <td>{{price.value}}</td>
+                <td>{{price.variation}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 </div>
 
-<div>
-    <label>Modelo</label>
-    <select
-        #modelo
-        (change)='selectModelo(modelo.value)'>
-        <option value="">Selecione ... </option>
-        <option *ngFor="let modelo of modelos" value="{{modelo.id}}">{{modelo.name}}</option>
-    </select>
-</div>
-<button id="search" (click)="search()" >Search</button>
-<table *ngFor="let veiculo of priceVariations" style="width:100%;" border="1">
-    <tr >
-        <td colspan="3">{{veiculo.vehicle}}</td>
-    </tr>
-    <tr *ngFor="let price of veiculo.prices">
-        <td>{{price.year}}</td>
-        <td>{{price.value}}</td>
-        <td>{{price.variation}}</td>
-    </tr>
-</table>
 
 
