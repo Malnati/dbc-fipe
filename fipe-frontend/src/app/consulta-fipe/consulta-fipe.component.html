@@ -1,6 +1,15 @@
 
 <p>Selecione a marca e o modelo e clique em pesquisar</p>
-<select>
+<select
+    #selectMarca
+    (change)='selectMarca(selectMarca.value)'>
+    <option value="">Selecione ... </option>
     <option *ngFor="let marca of marcas" value="{{marca.id}}">{{marca.name}}</option>
+</select>
+<select
+    #selectModelo
+    (change)='selectModelo(selectModelo.value)'>
+    <option value="">Selecione ... </option>
+    <option *ngFor="let modelo of modelos" value="{{modelo.id}}">{{modelo.name}}</option>
 </select>
 
