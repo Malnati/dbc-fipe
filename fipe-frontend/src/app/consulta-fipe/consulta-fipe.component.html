@@ -1,15 +1,34 @@
 
 <p>Selecione a marca e o modelo e clique em pesquisar</p>
-<select
-    #selectMarca
-    (change)='selectMarca(selectMarca.value)'>
-    <option value="">Selecione ... </option>
-    <option *ngFor="let marca of marcas" value="{{marca.id}}">{{marca.name}}</option>
-</select>
-<select
-    #selectModelo
-    (change)='selectModelo(selectModelo.value)'>
-    <option value="">Selecione ... </option>
-    <option *ngFor="let modelo of modelos" value="{{modelo.id}}">{{modelo.name}}</option>
-</select>
+<div>
+    <label>Marca</label>
+    <select
+        #marca 
+        (change)='selectMarca(marca.value)'>
+        <option value="">Selecione ... </option>
+        <option *ngFor="let marca of marcas" value="{{marca.id}}">{{marca.name}}</option>
+    </select>
+</div>
+
+<div>
+    <label>Modelo</label>
+    <select
+        #modelo
+        (change)='selectModelo(modelo.value)'>
+        <option value="">Selecione ... </option>
+        <option *ngFor="let modelo of modelos" value="{{modelo.id}}">{{modelo.name}}</option>
+    </select>
+</div>
+<button id="search" (click)="search()" >Search</button>
+<table *ngFor="let veiculo of priceVariations" style="width:100%;" border="1">
+    <tr >
+        <td colspan="3">{{veiculo.vehicle}}</td>
+    </tr>
+    <tr *ngFor="let price of veiculo.prices">
+        <td>{{price.year}}</td>
+        <td>{{price.value}}</td>
+        <td>{{price.variation}}</td>
+    </tr>
+</table>
+
 

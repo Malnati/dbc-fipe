@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Marca } from '../entities/Marca';
 import { Modelo } from '../entities/Modelo';
+import { PriceVariation } from '../entities/PriceVariation';
 import { MarcaService} from '../services/marca.service';
 import { ModeloService} from '../services/modelo.service';
+import { PriceVariationService} from '../services/price-variation.service';
 
 @Component({
   selector: 'app-consulta-fipe',
@@ -12,11 +14,13 @@ import { ModeloService} from '../services/modelo.service';
 export class ConsultaFipeComponent implements OnInit {
   marcas: Marca[];
   modelos: Modelo[];
+  priceVariations: PriceVariation[];
   selectedMarca : number;
   selectedModelo : number;
 
   constructor(private marcaService : MarcaService,
-    private modeloService : ModeloService) { }
+    private modeloService : ModeloService,
+    private priceVariationService : PriceVariationService) { }
 
   ngOnInit() {
     this.retrieveMarcas();
@@ -28,6 +32,7 @@ export class ConsultaFipeComponent implements OnInit {
   }
 
   selectMarca(idMarca : number) : void {
+    console.log(idMarca);
     this.selectedMarca = idMarca;
     if(idMarca) {
       this.modeloService.getModelos(idMarca)
@@ -37,6 +42,18 @@ export class ConsultaFipeComponent implements OnInit {
 
   selectModelo(idModelo : number) : void {
     this.selectedModelo = idModelo;
+  }
+
+  search() {
+    console.log("selectedMarca: |"+this.selectedMarca+"|");
+    console.log("selectedModelo: |"+this.selectedModelo+"|");
+    if(this.selectedMarca && this.selectedModelo) {
+      this.priceVariationService.getPriceVariation(this.selectedMarca, this.selectedModelo)
+        .subscribe(priceVariations => this.priceVariations = priceVariations);
+    }
+    else {
+      alert('Você deve selecionar marca e modelo para pesquisar')
+    }
   }
 
 }
