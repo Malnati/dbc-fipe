@@ -1,0 +1,52 @@
+version: '3'
+services:
+  mongodb:
+    image: 'mongo:latest'
+    container_name: fipe-mongo
+    restart: unless-stopped
+    networks: 
+      - dbc-fipe-net
+    ports:
+      - '27017:27017'
+    expose:
+      - '27017'
+    volumes:
+      - 'fipe-mongo-data:/data/db'
+  backend:
+    container_name: fipe-backend
+    restart: unless-stopped
+    build: 
+      context: ./fipe-backend
+      dockerfile: Dockerfile
+    networks: 
+      - dbc-fipe-net
+    ports:
+      - '8888:8888'
+    expose: 
+      - '8888'
+    depends_on:
+      - mongodb
+  frontend:
+    container_name: fipe-frontend
+    restart: unless-stopped
+    build: 
+      context: ./fipe-frontend
+      dockerfile: Dockerfile
+    networks: 
+      - dbc-fipe-net
+    ports:
+      - '4200:4200'
+    expose: 
+      - '4200'
+    volumes: 
+      - 'frontend-modules:/app/node_modules'
+    depends_on:
+      - backend
+volumes:
+  fipe-mongo-data:
+    driver: local
+  frontend-modules: 
+    driver: local
+networks:
+  dbc-fipe-net:
+    driver: bridge
