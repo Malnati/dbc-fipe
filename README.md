@@ -9,6 +9,26 @@
  
 * Documentação da API de Consulta Tabela FIPE: http://fipeapi.appspot.com/
 
+## Executando a aplicação
+
+A aplicação foi disponibilizada utilizando 3 containers básicos unidos em um docker-compose. Para executá-la basta executar os seguintes passos:
+
+1. Clone - clonar o repositório 
+2. Com o docker e o docker-compose devidamente instalados executar dentro da pasta raíz do projeto: `docker-compose up -d`.
+
+As imagens serão construídas com os projetos e a aplicação será disponibilizada em `http:\\localhost:4200`.
+
+## Melhorias
+
+### Cache
+Um dos requisitos solicitados era de que toda e qualquer chamada do cliente fosse cacheada em um banco de dados mongo. Recomendo utiliza a biblioteca spring *spring-boot-starter-cache* que possui suporte a caching utilizando diversos providers. Ainda não existe um provider default para mongodb, por isso escolhemos cachear o resultado de todas as consultas utilizando a lig *spring-data-mongodb* criando as entidades para cada objeto cacheado e estipulando o parâmetro **app.cache-ttl** para expiração do cache que pode ser definida no arquivo [application.yaml](./src/main/resources/application.yaml). 
+
+Recomendamos o uso da biblioteca padrão para cache do próprio spring em conjunto com o REDIS, solução amplamente utilizada para esse fim e que possui performace comprovadamente superior a outros mecanismos de cache.
+
+## Frontend
+O container fipe-frontend foi disponibilizado utilizando o próprio angular-cli para execução, o que não é recomendado. Com um pouco mais de tempo para disponibilização poderíamos disponibilizar apenas o resultado do ng build em um servidor http (nginx, apache http ou hproxy), configurando um virtual host para o domínio a ser executado e um proxy reverso para o backend.
+
+
 
 
 
